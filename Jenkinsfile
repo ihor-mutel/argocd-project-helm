@@ -12,9 +12,7 @@ podTemplate(containers: [
             container('maven') {
                 stage('Build a Maven project') {
                     //sh 'mvn -B clean install'
-                    sh 'env'
-                    sh 'env > /root/artifacts/env'
-                    sh 'echo TEST > /root/artifacts/art'
+                    sh 'echo BUILD'
                 }
             }
         }
@@ -26,8 +24,8 @@ podTemplate(containers: [
                     withCredentials([string(credentialsId: "argocd", variable: 'ARGOCD_AUTH_TOKEN')]) {
 
                         sh /* CORRECT */ '''
-                          argocd --insecure --server argocd-server.argocd.svc.cluster.local:80 app list --auth-token $ARGOCD_AUTH_TOKEN app set nginx-helm -p image.pullPolicy=Always
-                          argocd --insecure --server argocd-server.argocd.svc.cluster.local:80 app list --auth-token $ARGOCD_AUTH_TOKEN app sync nginx-helm
+                          argocd --insecure --auth-token $ARGOCD_AUTH_TOKEN  --server argocd-server.argocd.svc.cluster.local:80 app set nginx-helm -p image.tag=1.19.1
+                          argocd --insecure --auth-token $ARGOCD_AUTH_TOKEN  --server argocd-server.argocd.svc.cluster.local:80 app sync nginx-helm
                         '''
                     }
                 }
