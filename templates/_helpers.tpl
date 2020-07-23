@@ -1,4 +1,4 @@
-{{/* vim: set filetype=mustache: */}}
+e{/* vim: set filetype=mustache: */}}
 {{/*
 Expand the name of the chart.
 */}}
